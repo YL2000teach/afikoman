@@ -187,6 +187,14 @@ body::before {
 .btn-back:hover { background: var(--cream2); }
 #puzzle-iframe { width: 100%; border: none; min-height: calc(100vh - 54px); flex: 1; }
 
+.btn-reset-all {
+  font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 0.8rem;
+  padding: 7px 18px; border-radius: 99px;
+  border: 2px solid var(--border); background: transparent;
+  color: #b39070; cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.btn-reset-all:hover { background: var(--cream2); color: var(--brown2); }
+
 @keyframes shake {
   0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
 }
@@ -222,6 +230,8 @@ body::before {
     </div>
     <div class="progress-stations" id="progress-stations"></div>
   </div>
+
+  <button class="btn-reset-all" onclick="resetAll()">↺ איפוס התקדמות</button>
 </div>
 
 <!-- ══ PUZZLE ══ -->
@@ -248,7 +258,7 @@ body::before {
   <div class="win-card">
     <div class="win-emoji">🏆</div>
     <div class="win-title">מצאתם את האפיקומן!</div>
-    <div class="win-text">🎉 כל הכבוד! עברתם את כל 10 התחנות!<br><br>חג פסח שמח! 🌿</div>
+    <div class="win-text">🎉 כל הכבוד! עברתם את כל 10 התחנות!<br><br>שלחו צילום מסך למספר <strong>XXX</strong><br>וכתבו את שמות המשתתפים.<br><br>חג פסח שמח! 🌿</div>
     <button class="btn-win" onclick="document.getElementById('win-overlay').classList.remove('show')">🫓 סיום</button>
   </div>
 </div>
@@ -258,22 +268,22 @@ body::before {
 // STATION DATA
 // ══════════════════════════════
 const STATIONS = [
-  { id:1,  name:'חידת פסח',        icon:'🌿', code:'1357', completionType:'answer', correctAnswer:'6' },
-  { id:2,  name:'תפזורת המכות',    icon:'🐸', code:'2489', completionType:'answer', correctAnswer:'11' },
-  { id:3,  name:'פירמידת פסח',     icon:'🔺', code:'9876', completionType:'allCorrect' },
-  { id:4,  name:'משחק האפיקומן',   icon:'🫓', code:'1982', completionType:'minWords', minWords:5 },
-  { id:5,  name:'חבר מספר לשם',    icon:'🔢', code:'2026', completionType:'allCorrect' },
-  { id:6,  name:'מה נשתנה',        icon:'🍷', code:'1493', completionType:'allCorrect' },
-  { id:7,  name:'חידת גימטריה',    icon:'✡️', code:'1234', completionType:'allCorrect' },
-  { id:8,  name:'חידת תמונה',      icon:'🖼️', code:'4334', completionType:'allCorrect' },
-  { id:9,  name:'כתב חרטומים',     icon:'𓂀', code:'2222', completionType:'answer', correctAnswer:'20' },
-  { id:10, name:'חידת חשבון',      icon:'🧮', code:'1470', completionType:'answer', correctAnswer:'41' }
+  { id:1,  name:'חידת פסח',        icon:'🌿', code:'111', completionType:'answer', correctAnswer:'6' },
+  { id:2,  name:'תפזורת המכות',    icon:'🐸', code:'222', completionType:'answer', correctAnswer:'11' },
+  { id:3,  name:'פירמידת פסח',     icon:'🔺', code:'333', completionType:'allCorrect' },
+  { id:4,  name:'משחק האפיקומן',   icon:'🫓', code:'444', completionType:'minWords', minWords:5 },
+  { id:5,  name:'חבר מספר לשם',    icon:'🔢', code:'555', completionType:'allCorrect' },
+  { id:6,  name:'מה נשתנה',        icon:'🍷', code:'666', completionType:'allCorrect' },
+  { id:7,  name:'חידת גימטריה',    icon:'✡️', code:'777', completionType:'allCorrect' },
+  { id:8,  name:'חידת תמונה',      icon:'🖼️', code:'888', completionType:'allCorrect' },
+  { id:9,  name:'כתב חרטומים',     icon:'𓂀', code:'999', completionType:'answer', correctAnswer:'20' },
+  { id:10, name:'חידת חשבון',      icon:'🧮', code:'000', completionType:'answer', correctAnswer:'41' }
 ];
 
 // ══════════════════════════════
 // STATE
 // ══════════════════════════════
-const STORAGE_KEY = 'afikoman_v2';
+const STORAGE_KEY = 'afikoman_copy_v1';
 let state = { completed: [] };
 let currentStation = null;
 
@@ -392,6 +402,13 @@ function renderProgress() {
   });
 }
 
+function resetAll() {
+  if (!confirm('למחוק את כל ההתקדמות?')) return;
+  state = { completed: [] };
+  saveState();
+  renderProgress();
+}
+
 // ══════════════════════════════
 // INIT
 // ══════════════════════════════
@@ -437,7 +454,7 @@ return `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><me
 // STATION 3 — pyramid, all correct → complete
 // ─────────────────────────────────────────────────────
 function station3Html(postMsg) {
-return `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Heebo',sans-serif;background:#f5f0e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:14px 12px 28px;gap:12px}h1{font-size:1.3rem;font-weight:900;color:#7c3aed;text-align:center}#clues{background:#fff;border:2px solid #e0d8cc;border-radius:12px;padding:10px 14px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 10px rgba(0,0,0,.07)}.clue{font-size:.82rem;color:#4a3f35;line-height:1.45;display:flex;gap:7px}.clue-num{font-weight:700;color:#7c3aed;min-width:16px;flex-shrink:0}#pyramid{display:flex;flex-direction:column;align-items:center;gap:5px}.prow{display:flex;flex-direction:row;gap:5px}.brick{width:min(70px,calc((100vw - 48px)/5));height:min(44px,calc((100vw - 48px)/5 * 0.63));border-radius:7px;border:2px solid #5a7fc0;background:#6b93d6;font-family:'Heebo',sans-serif;font-size:clamp(1rem,4vw,1.35rem);font-weight:700;color:#fff;text-align:center;outline:none;padding:0;cursor:text;transition:background .15s,border-color .15s;flex-shrink:0}.brick:focus{border-color:#2d4fa0;background:#5580c8;box-shadow:0 0 0 2px rgba(93,128,200,.3)}.brick.correct{background:#22c55e;border-color:#16a34a}.brick.wrong{background:#ef4444;border-color:#dc2626;animation:shake .3s ease}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}#controls{display:flex;gap:10px}button{font-family:'Heebo',sans-serif;font-weight:700;font-size:.88rem;padding:9px 22px;border-radius:10px;cursor:pointer;border:none}#btn-check{background:#7c3aed;color:#fff}#btn-check:hover{background:#6d28d9}#btn-reset{background:#fff;color:#6b7280;border:2px solid #e0d8cc}#feedback{font-size:.95rem;font-weight:700;min-height:20px;color:#6b7280;text-align:center}#feedback.success{color:#16a34a}#feedback.error{color:#dc2626}</style></head><body><h1>🌿 פירמידת פסח</h1><div id="clues"><div class="clue"><span class="clue-num">1.</span><span>מספר השנים בגימטריה שבהן נדדו בני ישראל במדבר</span></div><div class="clue"><span class="clue-num">2.</span><span>האוכל שאכלו בני ישראל במדבר</span></div><div class="clue"><span class="clue-num">3.</span><span>דמות מרשעת ממגילת אסתר</span></div><div class="clue"><span class="clue-num">4.</span><span>מילה נרדפת להרבה</span></div><div class="clue"><span class="clue-num">5.</span><span>כמה קושיות נשאל אם נשיר את הקושיות פעמיים?</span></div></div><div id="pyramid"></div><div id="controls"><button id="btn-check">בדיקה</button><button id="btn-reset">↺ איפוס</button></div><div id="feedback"></div><script>const ANSWERS=['מ','מן','המן','המון','שמונה'];let inputs=[];const finals={'נ':'ן','כ':'ך','מ':'ם','פ':'ף','צ':'ץ'},reg={'ן':'נ','ך':'כ','ם':'מ','ף':'פ','ץ':'צ'};function build(){const pyr=document.getElementById('pyramid');pyr.innerHTML='';inputs=[];ANSWERS.forEach((word,ri)=>{const row=document.createElement('div');row.className='prow';const rowInputs=[];[...word].forEach((_,ci)=>{const inp=document.createElement('input');inp.type='text';inp.maxLength=2;inp.className='brick';inp.autocomplete='off';inp.autocorrect='off';inp.spellcheck=false;inp.addEventListener('input',e=>{let v=e.target.value.replace(/[^א-ת]/g,'');if(v.length>1)v=v[v.length-1];inp.value=v;inp.classList.remove('correct','wrong');document.getElementById('feedback').textContent='';document.getElementById('feedback').className='';if(v)advance(ri,ci)});inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value)retreat(ri,ci);if(e.key==='Enter')check()});row.appendChild(inp);rowInputs.push(inp)});inputs.push(rowInputs);pyr.appendChild(row)})}function advance(ri,ci){if(ci<inputs[ri].length-1)inputs[ri][ci+1].focus();else if(ri<inputs.length-1)inputs[ri+1][0].focus()}function retreat(ri,ci){if(ci>0)inputs[ri][ci-1].focus();else if(ri>0)inputs[ri-1][inputs[ri-1].length-1].focus()}function check(){let allOk=true,anyFilled=false;ANSWERS.forEach((word,ri)=>{[...word].forEach((letter,ci)=>{const inp=inputs[ri][ci];if(inp.value)anyFilled=true;if(!inp.value){allOk=false;return}const ok=inp.value===letter||finals[letter]===inp.value||reg[letter]===inp.value;inp.classList.toggle('correct',ok);inp.classList.toggle('wrong',!ok);if(!ok)allOk=false})});const fb=document.getElementById('feedback');if(!anyFilled){fb.textContent='מלאו לפחות תיבה אחת.';fb.className='error'}else if(allOk){fb.textContent='🎉 כל הכבוד! כל התשובות נכונות!';fb.className='success';setTimeout(()=>{${postMsg}},900)}else{fb.textContent='יש אותיות שגויות.';fb.className='error'}}function reset(){inputs.flat().forEach(i=>{i.value='';i.classList.remove('correct','wrong')});const fb=document.getElementById('feedback');fb.textContent='';fb.className='';inputs[0]?.[0]?.focus()}document.getElementById('btn-check').addEventListener('click',check);document.getElementById('btn-reset').addEventListener('click',reset);build();<\/script></body></html>`;
+return `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Heebo',sans-serif;background:#f5f0e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:14px 12px 28px;gap:12px}h1{font-size:1.3rem;font-weight:900;color:#7c3aed;text-align:center}#clues{background:#fff;border:2px solid #e0d8cc;border-radius:12px;padding:10px 14px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 10px rgba(0,0,0,.07)}.clue{font-size:.82rem;color:#4a3f35;line-height:1.45;display:flex;gap:7px}.clue-num{font-weight:700;color:#7c3aed;min-width:16px;flex-shrink:0}#pyramid{display:flex;flex-direction:column;align-items:center;gap:5px}.prow{display:flex;flex-direction:row;gap:5px}.brick{width:min(70px,calc((100vw - 48px)/5));height:min(44px,calc((100vw - 48px)/5 * 0.63));border-radius:7px;border:2px solid #5a7fc0;background:#6b93d6;font-family:'Heebo',sans-serif;font-size:clamp(1rem,4vw,1.35rem);font-weight:700;color:#fff;text-align:center;outline:none;padding:0;cursor:text;transition:background .15s,border-color .15s;flex-shrink:0}.brick:focus{border-color:#2d4fa0;background:#5580c8;box-shadow:0 0 0 2px rgba(93,128,200,.3)}.brick.correct{background:#22c55e;border-color:#16a34a}.brick.wrong{background:#ef4444;border-color:#dc2626;animation:shake .3s ease}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}#controls{display:flex;gap:10px}button{font-family:'Heebo',sans-serif;font-weight:700;font-size:.88rem;padding:9px 22px;border-radius:10px;cursor:pointer;border:none}#btn-check{background:#7c3aed;color:#fff}#btn-check:hover{background:#6d28d9}#btn-reset{background:#fff;color:#6b7280;border:2px solid #e0d8cc}#feedback{font-size:.95rem;font-weight:700;min-height:20px;color:#6b7280;text-align:center}#feedback.success{color:#16a34a}#feedback.error{color:#dc2626}</style></head><body><h1>🌿 פירמידת פסח</h1><div id="clues"><div class="clue"><span class="clue-num">1.</span><span>מספר השנים בגימטריה שבהן נדדו בני ישראל במדבר</span></div><div class="clue"><span class="clue-num">2.</span><span>האוכל שאכלו בני ישראל במדבר</span></div><div class="clue"><span class="clue-num">3.</span><span>דמות מרשעת ממגילת אסתר</span></div><div class="clue"><span class="clue-num">4.</span><span>מילה נרדפת לסופר</span></div><div class="clue"><span class="clue-num">5.</span><span>כמה קושיות נשאל אם נשיר את הקושיות פעמיים?</span></div></div><div id="pyramid"></div><div id="controls"><button id="btn-check">בדיקה</button><button id="btn-reset">↺ איפוס</button></div><div id="feedback"></div><script>const ANSWERS=['מ','מן','המן','מונה','שמונה'];let inputs=[];const finals={'נ':'ן','כ':'ך','מ':'ם','פ':'ף','צ':'ץ'},reg={'ן':'נ','ך':'כ','ם':'מ','ף':'פ','ץ':'צ'};function build(){const pyr=document.getElementById('pyramid');pyr.innerHTML='';inputs=[];ANSWERS.forEach((word,ri)=>{const row=document.createElement('div');row.className='prow';const rowInputs=[];[...word].forEach((_,ci)=>{const inp=document.createElement('input');inp.type='text';inp.maxLength=2;inp.className='brick';inp.autocomplete='off';inp.autocorrect='off';inp.spellcheck=false;inp.addEventListener('input',e=>{let v=e.target.value.replace(/[^א-ת]/g,'');if(v.length>1)v=v[v.length-1];inp.value=v;inp.classList.remove('correct','wrong');document.getElementById('feedback').textContent='';document.getElementById('feedback').className='';if(v)advance(ri,ci)});inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value)retreat(ri,ci);if(e.key==='Enter')check()});row.appendChild(inp);rowInputs.push(inp)});inputs.push(rowInputs);pyr.appendChild(row)})}function advance(ri,ci){if(ci<inputs[ri].length-1)inputs[ri][ci+1].focus();else if(ri<inputs.length-1)inputs[ri+1][0].focus()}function retreat(ri,ci){if(ci>0)inputs[ri][ci-1].focus();else if(ri>0)inputs[ri-1][inputs[ri-1].length-1].focus()}function check(){let allOk=true,anyFilled=false;ANSWERS.forEach((word,ri)=>{[...word].forEach((letter,ci)=>{const inp=inputs[ri][ci];if(inp.value)anyFilled=true;if(!inp.value){allOk=false;return}const ok=inp.value===letter||finals[letter]===inp.value||reg[letter]===inp.value;inp.classList.toggle('correct',ok);inp.classList.toggle('wrong',!ok);if(!ok)allOk=false})});const fb=document.getElementById('feedback');if(!anyFilled){fb.textContent='מלאו לפחות תיבה אחת.';fb.className='error'}else if(allOk){fb.textContent='🎉 כל הכבוד! כל התשובות נכונות!';fb.className='success';setTimeout(()=>{${postMsg}},900)}else{fb.textContent='יש אותיות שגויות.';fb.className='error'}}function reset(){inputs.flat().forEach(i=>{i.value='';i.classList.remove('correct','wrong')});const fb=document.getElementById('feedback');fb.textContent='';fb.className='';inputs[0]?.[0]?.focus()}document.getElementById('btn-check').addEventListener('click',check);document.getElementById('btn-reset').addEventListener('click',reset);build();<\/script></body></html>`;
 }
 
 // ─────────────────────────────────────────────────────
