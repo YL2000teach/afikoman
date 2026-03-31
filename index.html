@@ -40,11 +40,11 @@ body::before {
 /* ══ HOME ══ */
 #screen-home {
   justify-content: center;
-  padding: 40px 20px 60px;
-  gap: 32px;
+  padding: 24px 20px 36px;
+  gap: 20px;
 }
 .home-header { text-align: center; }
-.home-title { font-size: 2.2rem; font-weight: 900; color: var(--gold); letter-spacing: -1px; }
+.home-title { font-size: 1.9rem; font-weight: 900; color: var(--gold); letter-spacing: -1px; }
 .home-sub { font-size: 0.95rem; color: var(--brown2); font-weight: 700; margin-top: 4px; }
 
 .home-card {
@@ -52,9 +52,9 @@ body::before {
   background: #fff;
   border: 2px solid var(--border);
   border-radius: 20px;
-  padding: 28px 24px;
+  padding: 20px 22px;
   box-shadow: 0 6px 28px var(--shadow);
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: 14px;
 }
 .card-label {
   font-size: 0.82rem; font-weight: 700; color: var(--gold);
@@ -86,7 +86,7 @@ body::before {
 .btn-enter:active { transform: scale(0.97); }
 
 /* Progress */
-.progress-section { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 10px; }
+.progress-section { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 8px; }
 .progress-header {
   display: flex; justify-content: space-between; align-items: center;
   font-size: 0.85rem; font-weight: 700; color: var(--brown2);
@@ -351,7 +351,7 @@ function checkCode() {
 // ══════════════════════════════
 function launchPuzzle() {
   document.getElementById('topbar-label').textContent =
-    `${currentStation.icon} תחנה ${currentStation.id} — ${currentStation.name}`;
+    `${currentStation.icon} תחנה ${currentStation.id}`;
 
   const iframe = document.getElementById('puzzle-iframe');
   iframe.srcdoc = buildStationHtml(currentStation);
@@ -409,12 +409,6 @@ function resetAll() {
   renderProgress();
 }
 
-function resetAll() {
-  if (!confirm('למחוק את כל ההתקדמות?')) return;
-  state = { completed: [] };
-  saveState();
-  renderProgress();
-}
 
 // ══════════════════════════════
 // INIT
@@ -510,7 +504,7 @@ return `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><me
 // STATION 10 — math puzzle, answer 41 → complete
 // ─────────────────────────────────────────────────────
 function station10Html(postMsg) {
-return `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Heebo',sans-serif;background:#fdf6ec;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 14px 28px;gap:14px}h1{font-size:1.4rem;font-weight:900;color:#92400e;text-align:center}#subtitle{font-size:.82rem;color:#78716c;text-align:center;line-height:1.6;max-width:400px}#puzzle-card{width:100%;max-width:420px;background:#fff;border:2px solid #e0d8cc;border-radius:14px;padding:16px 20px;box-shadow:0 4px 20px rgba(0,0,0,.07);display:flex;flex-direction:column}.calc-row{display:flex;align-items:baseline;gap:11px;padding:9px 0;border-bottom:1px solid #f0e8dc}.calc-row:last-child{border-bottom:none}.operator{font-size:1.3rem;font-weight:900;color:#7c3aed;min-width:20px;text-align:center;flex-shrink:0}.calc-text{font-size:1rem;font-weight:700;color:#2d1a0e;line-height:1.4}.divider-line{height:2px;background:#92400e;margin:5px 0;border-radius:2px}#answer-input{font-family:'Heebo',sans-serif;font-size:1.5rem;font-weight:900;width:150px;height:56px;border:2.5px solid #d4b896;border-radius:12px;padding:0 14px;outline:none;text-align:center;background:#fff;color:#2d1a0e;transition:border-color .15s;letter-spacing:2px}#answer-input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.15)}#answer-input.correct{border-color:#16a34a;background:#f0fdf4;color:#15803d}#answer-input.wrong{border-color:#dc2626;background:#fef2f2;animation:shake .28s ease}@keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-6px)}70%{transform:translateX(6px)}}#controls{display:flex;gap:10px}button{font-family:'Heebo',sans-serif;font-weight:700;font-size:.9rem;padding:9px 24px;border-radius:10px;cursor:pointer;border:none}#btn-check{background:#7c3aed;color:#fff}#btn-check:hover{background:#6d28d9}#btn-reset{background:#fff;color:#78716c;border:2px solid #d4b896}#feedback{font-size:1.05rem;font-weight:700;min-height:24px;text-align:center;color:#78716c}#feedback.success{color:#16a34a}#feedback.error{color:#dc2626}#answer-label{font-size:.88rem;font-weight:700;color:#92400e}</style></head><body><h1>🧮 חידת חשבון</h1><div id="subtitle">חשבו את הסכום וכתבו את התשובה</div><div id="puzzle-card"><div class="calc-row"><span class="operator"> </span><span class="calc-text">מספר האמהות</span></div><div class="calc-row"><span class="operator">+</span><span class="calc-text">מספר האבות</span></div><div class="calc-row"><span class="operator">+</span><span class="calc-text">מספר השנים שבני ישראל צעדו במדבר</span></div><div class="calc-row"><span class="operator">−</span><span class="calc-text">מספר המכות</span></div><div class="calc-row"><span class="operator">+</span><span class="calc-text">מספר הקושיות</span></div><div class="divider-line"></div><div class="calc-row"><span class="operator">=</span><span class="calc-text" style="color:#7c3aed;">?</span></div></div><div id="answer-label">מה התשובה?</div><input type="text" id="answer-input" placeholder="___" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="numeric"><div id="feedback"></div><div id="controls"><button id="btn-check">בדיקה</button><button id="btn-reset">↺ איפוס</button></div><script>const ANSWER='41';const inp=document.getElementById('answer-input'),fb=document.getElementById('feedback');inp.addEventListener('keydown',e=>{if(e.key==='Enter')check()});inp.addEventListener('input',()=>{inp.classList.remove('correct','wrong');fb.textContent='';fb.className=''});function check(){const val=inp.value.trim();if(!val){fb.textContent='הקלידו תשובה תחילה';fb.className='error';return}if(ANSWERS.includes(val)||ANSWERS.some(a=>a===val)){inp.classList.add('correct');fb.textContent='🎉 כל הכבוד! צדקתם!';fb.className='success';setTimeout(()=>{${postMsg}},900)}else{inp.classList.add('wrong');setTimeout(()=>inp.classList.remove('wrong'),320);fb.textContent='לא מדויק — נסו שוב';fb.className='error';inp.value=''}}function reset(){inp.value='';inp.classList.remove('correct','wrong');fb.textContent='';fb.className='';inp.focus()}document.getElementById('btn-check').addEventListener('click',check);document.getElementById('btn-reset').addEventListener('click',reset);inp.focus();<\/script></body></html>`;
+return `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Heebo',sans-serif;background:#fdf6ec;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 14px 28px;gap:14px}h1{font-size:1.4rem;font-weight:900;color:#92400e;text-align:center}#subtitle{font-size:.82rem;color:#78716c;text-align:center;line-height:1.6;max-width:400px}#puzzle-card{width:100%;max-width:420px;background:#fff;border:2px solid #e0d8cc;border-radius:14px;padding:16px 20px;box-shadow:0 4px 20px rgba(0,0,0,.07);display:flex;flex-direction:column}.calc-row{display:flex;align-items:baseline;gap:11px;padding:9px 0;border-bottom:1px solid #f0e8dc}.calc-row:last-child{border-bottom:none}.operator{font-size:1.3rem;font-weight:900;color:#7c3aed;min-width:20px;text-align:center;flex-shrink:0}.calc-text{font-size:1rem;font-weight:700;color:#2d1a0e;line-height:1.4}.divider-line{height:2px;background:#92400e;margin:5px 0;border-radius:2px}#answer-input{font-family:'Heebo',sans-serif;font-size:1.5rem;font-weight:900;width:150px;height:56px;border:2.5px solid #d4b896;border-radius:12px;padding:0 14px;outline:none;text-align:center;background:#fff;color:#2d1a0e;transition:border-color .15s;letter-spacing:2px}#answer-input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.15)}#answer-input.correct{border-color:#16a34a;background:#f0fdf4;color:#15803d}#answer-input.wrong{border-color:#dc2626;background:#fef2f2;animation:shake .28s ease}@keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-6px)}70%{transform:translateX(6px)}}#controls{display:flex;gap:10px}button{font-family:'Heebo',sans-serif;font-weight:700;font-size:.9rem;padding:9px 24px;border-radius:10px;cursor:pointer;border:none}#btn-check{background:#7c3aed;color:#fff}#btn-check:hover{background:#6d28d9}#btn-reset{background:#fff;color:#78716c;border:2px solid #d4b896}#feedback{font-size:1.05rem;font-weight:700;min-height:24px;text-align:center;color:#78716c}#feedback.success{color:#16a34a}#feedback.error{color:#dc2626}#answer-label{font-size:.88rem;font-weight:700;color:#92400e}</style></head><body><h1>🧮 חידת חשבון</h1><div id="subtitle">חשבו את הסכום וכתבו את התשובה</div><div id="puzzle-card"><div class="calc-row"><span class="operator"> </span><span class="calc-text">מספר האמהות</span></div><div class="calc-row"><span class="operator">+</span><span class="calc-text">מספר האבות</span></div><div class="calc-row"><span class="operator">+</span><span class="calc-text">מספר השנים שבני ישראל צעדו במדבר</span></div><div class="calc-row"><span class="operator">−</span><span class="calc-text">מספר המכות</span></div><div class="calc-row"><span class="operator">+</span><span class="calc-text">מספר הקושיות</span></div><div class="divider-line"></div><div class="calc-row"><span class="operator">=</span><span class="calc-text" style="color:#7c3aed;">?</span></div></div><div id="answer-label">מה התשובה?</div><input type="text" id="answer-input" placeholder="___" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="numeric"><div id="feedback"></div><div id="controls"><button id="btn-check">בדיקה</button><button id="btn-reset">↺ איפוס</button></div><script>const ANSWER='41';const inp=document.getElementById('answer-input'),fb=document.getElementById('feedback');inp.addEventListener('keydown',e=>{if(e.key==='Enter')check()});inp.addEventListener('input',()=>{inp.classList.remove('correct','wrong');fb.textContent='';fb.className=''});function check(){const val=inp.value.trim();if(!val){fb.textContent='הקלידו תשובה תחילה';fb.className='error';return}if(val===ANSWER){inp.classList.add('correct');fb.textContent='🎉 כל הכבוד! צדקתם!';fb.className='success';setTimeout(()=>{${postMsg}},900)}else{inp.classList.add('wrong');setTimeout(()=>inp.classList.remove('wrong'),320);fb.textContent='לא מדויק — נסו שוב';fb.className='error';inp.value=''}}function reset(){inp.value='';inp.classList.remove('correct','wrong');fb.textContent='';fb.className='';inp.focus()}document.getElementById('btn-check').addEventListener('click',check);document.getElementById('btn-reset').addEventListener('click',reset);inp.focus();<\/script></body></html>`;
 }
 </script>
 </body>
