@@ -195,6 +195,14 @@ body::before {
 }
 .btn-reset-all:hover { background: var(--cream2); color: var(--brown2); }
 
+.btn-reset-all {
+  font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 0.8rem;
+  padding: 7px 18px; border-radius: 99px;
+  border: 2px solid var(--border); background: transparent;
+  color: #b39070; cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.btn-reset-all:hover { background: var(--cream2); color: var(--brown2); }
+
 @keyframes shake {
   0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
 }
@@ -230,6 +238,8 @@ body::before {
     </div>
     <div class="progress-stations" id="progress-stations"></div>
   </div>
+
+  <button class="btn-reset-all" onclick="resetAll()">↺ איפוס התקדמות</button>
 
   <button class="btn-reset-all" onclick="resetAll()">↺ איפוס התקדמות</button>
 </div>
@@ -268,16 +278,16 @@ body::before {
 // STATION DATA
 // ══════════════════════════════
 const STATIONS = [
-  { id:1,  name:'חידת פסח',        icon:'🌿', code:'111', completionType:'answer', correctAnswer:'6' },
-  { id:2,  name:'תפזורת המכות',    icon:'🐸', code:'222', completionType:'answer', correctAnswer:'11' },
-  { id:3,  name:'פירמידת פסח',     icon:'🔺', code:'333', completionType:'allCorrect' },
-  { id:4,  name:'משחק האפיקומן',   icon:'🫓', code:'444', completionType:'minWords', minWords:5 },
-  { id:5,  name:'חבר מספר לשם',    icon:'🔢', code:'555', completionType:'allCorrect' },
-  { id:6,  name:'מה נשתנה',        icon:'🍷', code:'666', completionType:'allCorrect' },
-  { id:7,  name:'חידת גימטריה',    icon:'✡️', code:'777', completionType:'allCorrect' },
-  { id:8,  name:'חידת תמונה',      icon:'🖼️', code:'888', completionType:'allCorrect' },
-  { id:9,  name:'כתב חרטומים',     icon:'𓂀', code:'999', completionType:'answer', correctAnswer:'20' },
-  { id:10, name:'חידת חשבון',      icon:'🧮', code:'000', completionType:'answer', correctAnswer:'41' }
+  { id:1,  name:'חידת פסח',        icon:'🌿', code:'1357', completionType:'answer', correctAnswer:'6' },
+  { id:2,  name:'תפזורת המכות',    icon:'🐸', code:'2489', completionType:'answer', correctAnswer:'11' },
+  { id:3,  name:'פירמידת פסח',     icon:'🔺', code:'9876', completionType:'allCorrect' },
+  { id:4,  name:'משחק האפיקומן',   icon:'🫓', code:'1982', completionType:'minWords', minWords:5 },
+  { id:5,  name:'חבר מספר לשם',    icon:'🔢', code:'2026', completionType:'allCorrect' },
+  { id:6,  name:'מה נשתנה',        icon:'🍷', code:'1493', completionType:'allCorrect' },
+  { id:7,  name:'חידת גימטריה',    icon:'✡️', code:'1234', completionType:'allCorrect' },
+  { id:8,  name:'חידת תמונה',      icon:'🖼️', code:'4334', completionType:'allCorrect' },
+  { id:9,  name:'כתב חרטומים',     icon:'𓂀', code:'2222', completionType:'answer', correctAnswer:'20' },
+  { id:10, name:'חידת חשבון',      icon:'🧮', code:'1470', completionType:'answer', correctAnswer:'41' }
 ];
 
 // ══════════════════════════════
@@ -400,6 +410,13 @@ function renderProgress() {
     dot.title = st.name;
     container.appendChild(dot);
   });
+}
+
+function resetAll() {
+  if (!confirm('למחוק את כל ההתקדמות?')) return;
+  state = { completed: [] };
+  saveState();
+  renderProgress();
 }
 
 function resetAll() {
